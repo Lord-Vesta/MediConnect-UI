@@ -1,0 +1,43 @@
+import axios from "axios";
+import { API_URL } from "./Api.config";
+import { toast } from "react-toastify";
+
+// Create Axios instance
+const axiosclient = axios.create({
+  headers: {
+    "Content-Type": "application/json",
+  },
+  baseURL: API_URL,
+});
+
+axiosclient.interceptors.request.use(
+  (request) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      request.headers.Authorization = `Bearer ${token}`;
+    }
+    return request;
+  },
+  (error) => {
+    console.error(error);
+    return Promise.reject(error);
+  }
+);
+
+axiosclient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const status = error.response?.status;
+
+    if (status === 401) {
+      console.error("Unauthorized! Please log in again.");
+      localStorage.clear();
+      return Promise.reject(error);
+    } else {
+      console.error(error);
+      return Promise.reject(error);
+    }
+  }
+);
+
+export default axiosclient;
