@@ -9,6 +9,7 @@ import MyAppointments from "./pages/MyAppointments";
 import MyProfile from "./pages/MyProfile";
 import Verify from "./pages/Verify";
 import Home from "./pages/Home";
+import Chat from "./pages/Chat";
 
 export const routes = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ export const routes = createBrowserRouter([
       { path: "/my-appointments", element: <MyAppointments /> },
       { path: "/my-profile", element: <MyProfile /> },
       { path: "/verify", element: <Verify /> },
+      { path: "/chat", element: <Chat /> },
     ],
   },
 ]);

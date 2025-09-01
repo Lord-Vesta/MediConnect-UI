@@ -3,12 +3,12 @@ export const API_URL = import.meta.env.VITE_BACKEND_URL;
 export const ApiConfig = {
   // User APIs
   USER_LOGIN: `/api/user/login`,
-  USER_REGISTER: `${API_URL}/api/user/register`,
-  USER_GET_PROFILE: `${API_URL}/api/user/get-profile`,
-  USER_UPDATE_PROFILE: `${API_URL}/api/user/update-profile`,
-  USER_BOOK_APPOINTMENT: `${API_URL}/api/user/book-appointment`,
-  USER_APPOINTMENTS: `${API_URL}/api/user/appointments`,
-  USER_CANCEL_APPOINTMENT: `${API_URL}/api/user/cancel-appointment`,
+  USER_REGISTER: `/api/user/register`,
+  USER_GET_PROFILE: `/api/user/get-profile`,
+  USER_UPDATE_PROFILE: `/api/user/update-profile`,
+  USER_BOOK_APPOINTMENT: `api/user/book-appointment`,
+  USER_APPOINTMENTS: `/api/user/appointments`,
+  USER_CANCEL_APPOINTMENT: `/api/user/cancel-appointment`,
   USER_PAYMENT_RAZORPAY: `${API_URL}/api/user/payment-razorpay`,
   USER_VERIFY_RAZORPAY: `${API_URL}/api/user/verifyRazorpay`,
   USER_PAYMENT_STRIPE: `${API_URL}/api/user/payment-stripe`,

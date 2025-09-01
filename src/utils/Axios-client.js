@@ -4,15 +4,13 @@ import { toast } from "react-toastify";
 
 // Create Axios instance
 const axiosclient = axios.create({
-  headers: {
-    "Content-Type": "application/json",
-  },
   baseURL: API_URL,
 });
 
 axiosclient.interceptors.request.use(
   (request) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken");
+
     if (token) {
       request.headers.Authorization = `Bearer ${token}`;
     }
