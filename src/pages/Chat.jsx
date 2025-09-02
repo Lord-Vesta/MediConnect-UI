@@ -4,6 +4,20 @@ import { doctors } from "../assets/assets";
 const messagesMock = [
   { sender: "doctor", text: "Hello! How can I help you today?" },
   { sender: "user", text: "I have a skin rash. What should I do?" },
+  { sender: "doctor", text: "Hello! How can I help you today?" },
+  { sender: "user", text: "I have a skin rash. What should I do?" },
+  { sender: "doctor", text: "Hello! How can I help you today?" },
+  { sender: "user", text: "I have a skin rash. What should I do?" },
+  { sender: "doctor", text: "Hello! How can I help you today?" },
+  { sender: "user", text: "I have a skin rash. What should I do?" },
+  { sender: "doctor", text: "Hello! How can I help you today?" },
+  { sender: "user", text: "I have a skin rash. What should I do?" },
+  { sender: "doctor", text: "Hello! How can I help you today?" },
+  { sender: "user", text: "I have a skin rash. What should I do?" },
+  { sender: "doctor", text: "Hello! How can I help you today?" },
+  { sender: "user", text: "I have a skin rash. What should I do?" },
+  { sender: "doctor", text: "Hello! How can I help you today?" },
+  { sender: "user", text: "I have a skin rash. What should I do?" },
 ];
 
 export default function Chat() {
@@ -19,17 +33,19 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex h-[80vh] bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className="flex h-[85vh] bg-white rounded-lg shadow-lg overflow-hidden">
       {/* Doctor List */}
-      <div className="w-1/3 bg-gray-100 p-4 border-r">
-        <h2 className="text-lg font-semibold mb-4">Your Doctors</h2>
-        <ul>
-          {doctors.slice(0, 5).map((doc) => (
+      <div className="w-1/3 bg-gray-100 p-4 border-r h-full overflow-y-hidden">
+        <h2 className="text-lg font-semibold mb-4 flex-shrink">Your Doctors</h2>
+        <ul className="h-[90%] overflow-y-auto">
+          {doctors.map((doc) => (
             <li
               key={doc.id}
-              className={`flex items-center gap-3 p-2 mb-2 rounded-lg cursor-pointer hover:bg-gray-200 ${
-                selectedDoctor.id === doc.id ? "bg-blue-100" : ""
-              }`}
+              className={` flex items-center gap-3 p-2 mb-2  rounded-lg cursor-pointer hover:bg-gray-200 ${
+                selectedDoctor._id === doc._id
+                  ? "bg-blue-100 border-blue-100 border-2"
+                  : "border-gray-200 border-2"
+              } `}
               onClick={() => setSelectedDoctor(doc)}
             >
               <img
