@@ -9,7 +9,10 @@ const {
   USER_UPDATE_PROFILE,
   USER_APPOINTMENTS,
   USER_BOOK_APPOINTMENT,
-  USER_CANCEL_APPOINTMENT
+  USER_CANCEL_APPOINTMENT,
+  DOCTORS_CHAT_LIST,
+  GET_ROOM_ID,
+  GET_ROOM_MESSAGES,
 } = ApiConfig;
 
 export const loginUser = async (credentials) => {
@@ -83,6 +86,33 @@ export const cancelAppointment = async (appointmentId) => {
     const result = await axiosclient.post(USER_CANCEL_APPOINTMENT, {
       appointmentId,
     });
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getDoctorsForChat = async () => {
+  try {
+    const result = await axiosclient.get(DOCTORS_CHAT_LIST);
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getRoomId = async (receiverId) => {
+  try {
+    const result = await axiosclient.get(`${GET_ROOM_ID}/${receiverId}`);
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getRoomMessages = async (receiverId) => {
+  try {
+    const result = await axiosclient.get(`${GET_ROOM_MESSAGES}/${receiverId}`);
     return result.data;
   } catch (error) {
     throw error;
