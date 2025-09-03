@@ -32,7 +32,7 @@ axiosclient.interceptors.response.use(
       localStorage.clear();
       return Promise.reject(error);
     } else {
-      console.error(error);
+      console.error(error,"errererererer");
       return Promise.reject(error);
     }
   }

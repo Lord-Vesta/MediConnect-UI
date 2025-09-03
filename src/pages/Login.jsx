@@ -23,7 +23,7 @@ const Login = () => {
         setToken(data?.data);
       }
     } catch (error) {
-      throw error;
+      toast.error(error.message);
     }
   };
 
@@ -35,7 +35,8 @@ const Login = () => {
       }
       setState("Login");
     } catch (error) {
-      throw error;
+      console.log(error,"errorrrr");
+      toast.error(error.message);
     }
   };
 
