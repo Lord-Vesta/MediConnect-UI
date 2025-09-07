@@ -40,7 +40,6 @@ export default function Chat() {
       if (token) {
         socketRef.current = getSocket(token);
         socketRef.current.on("private_message", (msg) => {
-          console.log(msg, "messageee");
           setMessages((prev) => [...prev, msg]);
         });
       }
@@ -59,11 +58,12 @@ export default function Chat() {
 
   // Send message handler
   const handleSend = () => {
-    if (input.trim() && socketRef.current) {
+    if (input.trim() && socketRef.current && selectedDoctor) {
       const message = {
         senderId: userData?._id,
         message: input,
         receiverId: selectedDoctor._id,
+        roomId: roomId,
       };
       console.log(message, "inputMessage");
       setMessages([...messages, message]);
@@ -78,16 +78,15 @@ export default function Chat() {
     }
   };
 
-  socketRef.current?.on("private_message", (msg) => {
-    console.log(msg, "onlistener");
-    setMessages((prev) => [...prev, msg]);
-  });
-
   const handleFetchRoomId = async () => {
     try {
-      const { data } = getRoomId(selectedDoctor._id);
-      if (data) {
-        setRoomId(data?._id);
+      const { data } = await getRoomId(selectedDoctor._id);
+
+      if (data?._id) {
+        setRoomId(data._id);
+      } else {
+        // fallback if backend didn't return roomId
+        setRoomId(selectedDoctor._id + userData._id);
       }
     } catch (error) {
       toast.error("failed to fetch room id");
@@ -97,9 +96,7 @@ export default function Chat() {
   const handleFetchRoomMessages = async () => {
     try {
       const { data } = await getRoomMessages(selectedDoctor._id);
-      console.log(data,"000000000000000");
       if (data) {
-        console.log(data,"dataaaaaaaaaaaaaa");
         setMessages(data);
       }
     } catch (error) {
@@ -112,16 +109,16 @@ export default function Chat() {
       if (selectedDoctor) {
         await handleFetchRoomId();
         await handleFetchRoomMessages();
-        if (roomId) {
-          joinRoom(roomId);
-        } else {
-          setRoomId(selectedDoctor._id + userData._id);
-          joinRoom(roomId);
-        }
       }
     };
     fetchAndJoinRoom();
   }, [selectedDoctor]);
+
+  useEffect(() => {
+    if (roomId) {
+      joinRoom(roomId);
+    }
+  }, [roomId]);
 
   return (
     <div className="flex h-[80vh] bg-white rounded-lg shadow-lg overflow-hidden">

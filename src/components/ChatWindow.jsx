@@ -9,7 +9,10 @@ const ChatWindow = ({
   handleSend,
   userId,
 }) => {
-    console.log(messages, "messages");
+  console.log(messages, "messages");
+  console.log(userId, "userId");
+  messages.map((msg) => console.log(msg?.senderId == userId, "msg"));
+  
   return (
     <div className="flex-1 flex flex-col">
       {/* Doctor Header */}
@@ -29,7 +32,8 @@ const ChatWindow = ({
 
       {/* Messages */}
       <div className="flex-1 p-4 overflow-y-auto bg-white">
-        {messages.map((msg, idx) => (
+        {
+        messages.map((msg, idx) => (
           <div
             key={idx}
             className={`mb-3 flex ${
