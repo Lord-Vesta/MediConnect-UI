@@ -9,10 +9,7 @@ const ChatWindow = ({
   handleSend,
   userId,
 }) => {
-  console.log(messages, "messages");
-  console.log(userId, "userId");
-  messages.map((msg) => console.log(msg?.senderId == userId, "msg"));
-  
+  console.log(messages,"messages user");
   return (
     <div className="flex-1 flex flex-col">
       {/* Doctor Header */}
