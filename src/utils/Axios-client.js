@@ -30,9 +30,11 @@ axiosclient.interceptors.response.use(
     if (status === 401) {
       console.error("Unauthorized! Please log in again.");
       localStorage.clear();
+      window.location.href = "/";
+      window.reload();
       return Promise.reject(error);
     } else {
-      console.error(error,"errererererer");
+      console.error(error, "errererererer");
       return Promise.reject(error);
     }
   }

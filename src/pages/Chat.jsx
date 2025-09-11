@@ -39,9 +39,6 @@ export default function Chat() {
     const init = async () => {
       if (token) {
         socketRef.current = getSocket(token);
-        socketRef.current.on("private_message", (msg) => {
-          setMessages((prev) => [...prev, msg]);
-        });
       }
       await handleGetDoctorsToChat();
     };
@@ -57,22 +54,25 @@ export default function Chat() {
   }, [token]);
 
   // Send message handler
+  console.log(selectedDoctor, "-----------------");
+
   const handleSend = () => {
     if (input.trim() && socketRef.current && selectedDoctor) {
       const message = {
         senderId: userData?._id,
         message: input,
-        receiverId: selectedDoctor._id,
+        receiverId: selectedDoctor.docData._id,
         roomId: roomId,
       };
-      console.log(message, "inputMessage");
-      setMessages([...messages, message]);
+
+      // setMessages([...messages, message]);
       socketRef.current.emit("private_message", message);
       setInput("");
     }
   };
 
   const joinRoom = () => {
+    console.log(roomId, "roomId user");
     if (socketRef.current) {
       socketRef.current.emit("join_room", roomId);
     }
@@ -80,13 +80,13 @@ export default function Chat() {
 
   const handleFetchRoomId = async () => {
     try {
-      const { data } = await getRoomId(selectedDoctor._id);
+      const { data } = await getRoomId(selectedDoctor.docData._id);
 
       if (data?._id) {
         setRoomId(data._id);
       } else {
         // fallback if backend didn't return roomId
-        setRoomId(selectedDoctor._id + userData._id);
+        setRoomId(selectedDoctor.docData._id + userData._id);
       }
     } catch (error) {
       toast.error("failed to fetch room id");
@@ -95,7 +95,7 @@ export default function Chat() {
 
   const handleFetchRoomMessages = async () => {
     try {
-      const { data } = await getRoomMessages(selectedDoctor._id);
+      const { data } = await getRoomMessages(selectedDoctor.docData._id);
       if (data) {
         setMessages(data);
       }
@@ -120,8 +120,21 @@ export default function Chat() {
     }
   }, [roomId]);
 
+  useEffect(() => {
+    if (!socketRef.current || !roomId) return;
+    const handleMessage = (msg) => {
+      if (msg.roomId === roomId) {
+        setMessages((prev) => [...prev, msg]);
+      }
+    };
+    socketRef.current.on("private_message", handleMessage);
+    return () => {
+      socketRef.current.off("private_message", handleMessage);
+    };
+  }, [roomId]);
+
   return (
-    <div className="flex h-[80vh] bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className=" flex h-[80vh] bg-white rounded-lg shadow-lg overflow-hidden">
       {doctors && selectedDoctor && (
         <>
           <ChatSidebar

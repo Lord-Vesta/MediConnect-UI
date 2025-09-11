@@ -116,6 +116,9 @@ const Navbar = () => {
             <NavLink onClick={() => setShowMenu(false)} to="/contact">
               <p className="px-4 py-2 rounded full inline-block">CONTACT</p>
             </NavLink>
+            <NavLink onClick={() => setShowMenu(false)} to="/chat">
+              <p className="px-4 py-2 rounded full inline-block">CHAT</p>
+            </NavLink>
           </ul>
         </div>
       </div>
