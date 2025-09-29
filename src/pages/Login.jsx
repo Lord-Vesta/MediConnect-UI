@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { loginUser, signupUser } from "../utils/Api.utils";
+import Loader from "../components/Loader";
 
 const Login = () => {
   const [state, setState] = useState("Sign Up");
@@ -11,11 +12,13 @@ const Login = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const { token, setToken } = useContext(AppContext);
 
   const handleLoginUser = async (requestData) => {
+    setLoading(true);
     try {
       const data = await loginUser(requestData);
       if (data) {
@@ -24,10 +27,13 @@ const Login = () => {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSignupUser = async (requestData) => {
+    setLoading(true);
     try {
       const data = await signupUser(requestData);
       if (data) {
@@ -35,8 +41,10 @@ const Login = () => {
       }
       setState("Login");
     } catch (error) {
-      console.log(error,"errorrrr");
+      console.log(error, "errorr");
       toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,7 +72,9 @@ const Login = () => {
     }
   }, [token]);
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">
       <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl text-[#5E5E5E] text-sm shadow-lg">
         <p className="text-2xl font-semibold">
